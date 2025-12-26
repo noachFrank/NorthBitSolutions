@@ -153,17 +153,17 @@ const Services = () => {
     const getStackIndices = () => {
         const leftStack = [];
         const rightStack = [];
-        
+
         // Left stack - top card is previous (currentIndex - 1), cards behind go further back
         for (let i = 1; i <= 2; i++) {
             leftStack.push((currentIndex - i + services.length) % services.length);
         }
-        
+
         // Right stack - top card is next (currentIndex + 1), cards behind go further ahead
         for (let i = 1; i <= 2; i++) {
             rightStack.push((currentIndex + i) % services.length);
         }
-        
+
         return { leftStack, center: currentIndex, rightStack };
     };
 
@@ -672,8 +672,8 @@ const Services = () => {
                                         <Typography
                                             variant="h4"
                                             component="h3"
-                                            sx={{ 
-                                                mb: 2, 
+                                            sx={{
+                                                mb: 2,
                                                 fontWeight: 600,
                                                 fontSize: { xs: '1.5rem', md: '2rem' },
                                             }}
