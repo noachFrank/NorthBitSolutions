@@ -494,14 +494,14 @@ const Hero = () => {
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
+                    transition={{ duration: 1.2 }}
                 >
                     <Stack spacing={4} alignItems="center" textAlign="center">
                         {/* Company Logo */}
                         <motion.div
                             initial={{ scale: 0, rotate: -180 }}
                             animate={{ scale: 1, rotate: 0 }}
-                            transition={{ duration: 0.8, delay: 0.2, type: 'spring' }}
+                            transition={{ duration: 1.2, delay: 0.3, type: 'spring' }}
                         >
                             <Box
                                 sx={{
@@ -541,7 +541,7 @@ const Hero = () => {
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: 0.4 }}
+                            transition={{ duration: 1, delay: 0.6 }}
                         >
                             <Typography
                                 variant="h1"
@@ -568,7 +568,7 @@ const Hero = () => {
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: 0.6 }}
+                            transition={{ duration: 1, delay: 1 }}
                         >
                             <Box sx={{ position: 'relative', display: 'inline-block' }}>
                                 <Typography
@@ -619,7 +619,7 @@ const Hero = () => {
                         <motion.div
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: 0.7 }}
+                            transition={{ duration: 1, delay: 1.3 }}
                         >
                             <Typography
                                 variant="subtitle1"
@@ -648,7 +648,7 @@ const Hero = () => {
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            transition={{ duration: 0.6, delay: 0.8 }}
+                            transition={{ duration: 1, delay: 1.6 }}
                         >
                             <Typography
                                 variant="body1"
@@ -669,7 +669,7 @@ const Hero = () => {
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: 1 }}
+                            transition={{ duration: 1, delay: 1.9 }}
                         >
                             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ mt: 2 }}>
                                 <motion.div whileHover={{ scale: 1.05, boxShadow: '0 0 30px rgba(0, 212, 255, 0.5)' }} whileTap={{ scale: 0.95 }}>

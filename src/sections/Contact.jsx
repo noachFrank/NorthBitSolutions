@@ -50,10 +50,10 @@ const Contact = () => {
         e.preventDefault();
         setIsSubmitting(true);
 
-        // EmailJS configuration
-        const SERVICE_ID = 'service_em91glr';
-        const TEMPLATE_ID = 'template_ian0jog';
-        const PUBLIC_KEY = 'Qtvv1vpf80CTwLjOk';
+        // EmailJS configuration (from environment variables)
+        const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+        const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+        const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
         const templateParams = {
             from_name: formData.name,
