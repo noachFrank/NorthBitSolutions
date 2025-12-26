@@ -404,7 +404,7 @@ const Services = () => {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        minHeight: { xs: 480, md: 550 },
+                        minHeight: { xs: '60vh', md: '70vh' },
                         perspective: '1000px',
                     }}
                 >
@@ -452,12 +452,13 @@ const Services = () => {
                             alignItems: 'center',
                             justifyContent: 'center',
                             width: '100%',
-                            maxWidth: 1200,
+                            maxWidth: '100%',
                             position: 'relative',
-                            height: { xs: 420, md: 480 },
+                            height: { xs: '50vh', md: '60vh' },
+                            px: { xs: 2, md: 4 },
                         }}
                     >
-                        <AnimatePresence mode="popLayout">
+                        <AnimatePresence mode="sync">
                             {visibleIndices.map((serviceIndex, position) => {
                                 const service = services[serviceIndex];
                                 const isCenter = position === 1;
@@ -467,36 +468,36 @@ const Services = () => {
                                     <motion.div
                                         key={serviceIndex}
                                         initial={{
-                                            x: direction > 0 ? 400 : -400,
+                                            x: direction > 0 ? '50vw' : '-50vw',
                                             opacity: 0,
-                                            scale: 0.8,
+                                            scale: 0.7,
                                         }}
                                         animate={{
-                                            x: isCenter ? 0 : isLeft ? -320 : 320,
-                                            opacity: isCenter ? 1 : 0.5,
-                                            scale: isCenter ? 1 : 0.7,
+                                            x: isCenter ? 0 : isLeft ? '-28vw' : '28vw',
+                                            opacity: isCenter ? 1 : 0.4,
+                                            scale: isCenter ? 1 : 0.65,
                                             zIndex: isCenter ? 3 : 1,
                                         }}
                                         exit={{
-                                            x: direction > 0 ? -400 : 400,
+                                            x: direction > 0 ? '-50vw' : '50vw',
                                             opacity: 0,
-                                            scale: 0.8,
+                                            scale: 0.7,
                                         }}
                                         transition={{
-                                            type: 'spring',
-                                            stiffness: 300,
-                                            damping: 30,
+                                            type: 'tween',
+                                            duration: 0.6,
+                                            ease: [0.25, 0.1, 0.25, 1],
                                         }}
                                         style={{
                                             position: 'absolute',
-                                            width: isCenter ? '420px' : '320px',
+                                            width: isCenter ? 'min(500px, 40vw)' : 'min(380px, 30vw)',
                                             cursor: isCenter ? 'default' : 'pointer',
                                         }}
                                         onClick={() => !isCenter && goToSlide(serviceIndex)}
                                     >
                                         <Card
                                             sx={{
-                                                p: isCenter ? 4 : 3,
+                                                p: isCenter ? { xs: 3, md: 5 } : { xs: 2, md: 3 },
                                                 background: isCenter
                                                     ? 'linear-gradient(145deg, rgba(18, 18, 26, 0.95) 0%, rgba(26, 26, 37, 0.95) 100%)'
                                                     : 'linear-gradient(145deg, rgba(18, 18, 26, 0.7) 0%, rgba(26, 26, 37, 0.7) 100%)',
