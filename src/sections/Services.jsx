@@ -1,65 +1,157 @@
-import { Box, Container, Typography, Grid, Card, CardContent } from '@mui/material';
-import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { Box, Container, Typography, Card, CardContent, IconButton } from '@mui/material';
+import { motion, AnimatePresence } from 'framer-motion';
 import CodeIcon from '@mui/icons-material/Code';
 import CloudIcon from '@mui/icons-material/Cloud';
 import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 import SecurityIcon from '@mui/icons-material/Security';
 import SpeedIcon from '@mui/icons-material/Speed';
 import SupportAgentIcon from '@mui/icons-material/SupportAgent';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import StorageIcon from '@mui/icons-material/Storage';
+import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstructions';
+import AnalyticsIcon from '@mui/icons-material/Analytics';
+import WebIcon from '@mui/icons-material/Web';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import AppleIcon from '@mui/icons-material/Apple';
+import AndroidIcon from '@mui/icons-material/Android';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import SmartToyIcon from '@mui/icons-material/SmartToy';
+import BuildIcon from '@mui/icons-material/Build';
+import UpdateIcon from '@mui/icons-material/Update';
+import BrushIcon from '@mui/icons-material/Brush';
 
 const services = [
     {
-        icon: <CodeIcon sx={{ fontSize: 48 }} />,
+        icon: <CodeIcon sx={{ fontSize: 56 }} />,
         title: 'Custom Software Development',
         description: 'Tailored solutions built from the ground up to meet your specific business requirements and workflows.',
     },
     {
-        icon: <CloudIcon sx={{ fontSize: 48 }} />,
+        icon: <WebIcon sx={{ fontSize: 56 }} />,
+        title: 'Website Development',
+        description: 'Stunning, responsive websites that captivate your audience and drive conversions with modern design.',
+    },
+    {
+        icon: <DashboardIcon sx={{ fontSize: 56 }} />,
+        title: 'Dashboard & Admin Panels',
+        description: 'Powerful, intuitive dashboards that give you real-time insights and complete control over your business.',
+    },
+    {
+        icon: <AppleIcon sx={{ fontSize: 56 }} />,
+        title: 'iOS Development',
+        description: 'Native iPhone and iPad applications built with Swift for optimal performance and Apple ecosystem integration.',
+    },
+    {
+        icon: <AndroidIcon sx={{ fontSize: 56 }} />,
+        title: 'Android Development',
+        description: 'High-quality Android apps using Kotlin that reach billions of users on smartphones and tablets.',
+    },
+    {
+        icon: <PhoneIphoneIcon sx={{ fontSize: 56 }} />,
+        title: 'Cross-Platform Apps',
+        description: 'Build once, deploy everywhere with React Native and Flutter for maximum reach and efficiency.',
+    },
+    {
+        icon: <ShoppingCartIcon sx={{ fontSize: 56 }} />,
+        title: 'E-Commerce Solutions',
+        description: 'Complete online stores with secure payments, inventory management, and seamless checkout experiences.',
+    },
+    {
+        icon: <CloudIcon sx={{ fontSize: 56 }} />,
         title: 'Cloud Solutions',
         description: 'Scalable cloud infrastructure and migration services to optimize your operations and reduce costs.',
     },
     {
-        icon: <PhoneIphoneIcon sx={{ fontSize: 48 }} />,
-        title: 'Mobile Applications',
-        description: 'Native and cross-platform mobile apps that deliver exceptional user experiences across all devices.',
+        icon: <SmartToyIcon sx={{ fontSize: 56 }} />,
+        title: 'AI & Machine Learning',
+        description: 'Intelligent automation and predictive analytics to transform your business with cutting-edge AI.',
     },
     {
-        icon: <SecurityIcon sx={{ fontSize: 48 }} />,
+        icon: <SecurityIcon sx={{ fontSize: 56 }} />,
         title: 'Cybersecurity',
         description: 'Comprehensive security solutions to protect your data and infrastructure from evolving threats.',
     },
     {
-        icon: <SpeedIcon sx={{ fontSize: 48 }} />,
+        icon: <IntegrationInstructionsIcon sx={{ fontSize: 56 }} />,
+        title: 'API Development',
+        description: 'Custom API solutions that seamlessly connect your systems and enable powerful integrations.',
+    },
+    {
+        icon: <StorageIcon sx={{ fontSize: 56 }} />,
+        title: 'Database Management',
+        description: 'Robust database design, optimization, and maintenance to ensure your data is secure and accessible.',
+    },
+    {
+        icon: <AnalyticsIcon sx={{ fontSize: 56 }} />,
+        title: 'Data Analytics',
+        description: 'Transform your data into actionable insights with advanced analytics and visualization tools.',
+    },
+    {
+        icon: <BrushIcon sx={{ fontSize: 56 }} />,
+        title: 'UI/UX Design',
+        description: 'Beautiful, user-centered designs that create memorable experiences and boost engagement.',
+    },
+    {
+        icon: <BuildIcon sx={{ fontSize: 56 }} />,
+        title: 'DevOps & CI/CD',
+        description: 'Streamlined development pipelines with automated testing, deployment, and monitoring.',
+    },
+    {
+        icon: <UpdateIcon sx={{ fontSize: 56 }} />,
+        title: 'Legacy System Modernization',
+        description: 'Breathe new life into outdated systems with modern technology stacks and improved architecture.',
+    },
+    {
+        icon: <SpeedIcon sx={{ fontSize: 56 }} />,
         title: 'Performance Optimization',
         description: 'Speed up your existing applications and systems for better efficiency and user satisfaction.',
     },
     {
-        icon: <SupportAgentIcon sx={{ fontSize: 48 }} />,
+        icon: <SupportAgentIcon sx={{ fontSize: 56 }} />,
         title: 'IT Consulting',
         description: 'Expert guidance to help you make informed technology decisions and strategic planning.',
     },
 ];
 
-const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: {
-            staggerChildren: 0.1,
-        },
-    },
-};
-
-const cardVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.5 },
-    },
-};
-
 const Services = () => {
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [direction, setDirection] = useState(1);
+
+    // Auto-slide every 4 seconds
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setDirection(1);
+            setCurrentIndex((prev) => (prev + 1) % services.length);
+        }, 4000);
+        return () => clearInterval(timer);
+    }, []);
+
+    const goToSlide = (index) => {
+        setDirection(index > currentIndex ? 1 : -1);
+        setCurrentIndex(index);
+    };
+
+    const nextSlide = () => {
+        setDirection(1);
+        setCurrentIndex((prev) => (prev + 1) % services.length);
+    };
+
+    const prevSlide = () => {
+        setDirection(-1);
+        setCurrentIndex((prev) => (prev - 1 + services.length) % services.length);
+    };
+
+    // Get visible cards (prev, current, next)
+    const getVisibleIndices = () => {
+        const prev = (currentIndex - 1 + services.length) % services.length;
+        const next = (currentIndex + 1) % services.length;
+        return [prev, currentIndex, next];
+    };
+
+    const visibleIndices = getVisibleIndices();
+
     return (
         <Box
             id="services"
@@ -305,91 +397,209 @@ const Services = () => {
                     </Box>
                 </motion.div>
 
-                <motion.div
-                    variants={containerVariants}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, amount: 0.2 }}
+                {/* Carousel Container */}
+                <Box
+                    sx={{
+                        position: 'relative',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        minHeight: { xs: 480, md: 550 },
+                        perspective: '1000px',
+                    }}
                 >
-                    <Grid container spacing={4}>
-                        {services.map((service, index) => (
-                            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index}>
-                                <motion.div variants={cardVariants}>
-                                    <Card
-                                        sx={{
-                                            height: '100%',
-                                            p: 2,
-                                            cursor: 'pointer',
-                                            background: 'linear-gradient(145deg, rgba(18, 18, 26, 0.9) 0%, rgba(26, 26, 37, 0.9) 100%)',
-                                            border: '1px solid rgba(0, 212, 255, 0.1)',
-                                            position: 'relative',
-                                            overflow: 'hidden',
-                                            transition: 'all 0.4s ease',
-                                            '&::before': {
-                                                content: '""',
-                                                position: 'absolute',
-                                                top: 0,
-                                                left: 0,
-                                                right: 0,
-                                                height: '2px',
-                                                background: 'linear-gradient(90deg, transparent, #00D4FF, #7B2DFF, transparent)',
-                                                opacity: 0,
-                                                transition: 'opacity 0.3s ease',
-                                            },
-                                            '&::after': {
-                                                content: '""',
-                                                position: 'absolute',
-                                                top: 0,
-                                                left: 0,
-                                                right: 0,
-                                                bottom: 0,
-                                                background: 'radial-gradient(circle at 50% 0%, rgba(0, 212, 255, 0.1) 0%, transparent 60%)',
-                                                opacity: 0,
-                                                transition: 'opacity 0.3s ease',
-                                            },
-                                            '&:hover': {
-                                                transform: 'translateY(-12px) scale(1.02)',
-                                                borderColor: 'rgba(0, 212, 255, 0.5)',
-                                                boxShadow: '0 25px 50px rgba(0, 212, 255, 0.2), 0 0 40px rgba(123, 45, 255, 0.15)',
+                    {/* Navigation Arrows */}
+                    <IconButton
+                        onClick={prevSlide}
+                        sx={{
+                            position: 'absolute',
+                            left: { xs: 0, md: '5%' },
+                            zIndex: 10,
+                            color: 'primary.main',
+                            background: 'rgba(0, 212, 255, 0.1)',
+                            border: '1px solid rgba(0, 212, 255, 0.3)',
+                            '&:hover': {
+                                background: 'rgba(0, 212, 255, 0.2)',
+                                boxShadow: '0 0 20px rgba(0, 212, 255, 0.4)',
+                            },
+                        }}
+                    >
+                        <ChevronLeftIcon sx={{ fontSize: 32 }} />
+                    </IconButton>
+
+                    <IconButton
+                        onClick={nextSlide}
+                        sx={{
+                            position: 'absolute',
+                            right: { xs: 0, md: '5%' },
+                            zIndex: 10,
+                            color: 'primary.main',
+                            background: 'rgba(0, 212, 255, 0.1)',
+                            border: '1px solid rgba(0, 212, 255, 0.3)',
+                            '&:hover': {
+                                background: 'rgba(0, 212, 255, 0.2)',
+                                boxShadow: '0 0 20px rgba(0, 212, 255, 0.4)',
+                            },
+                        }}
+                    >
+                        <ChevronRightIcon sx={{ fontSize: 32 }} />
+                    </IconButton>
+
+                    {/* Cards Display */}
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            width: '100%',
+                            maxWidth: 1200,
+                            position: 'relative',
+                            height: { xs: 420, md: 480 },
+                        }}
+                    >
+                        <AnimatePresence mode="popLayout">
+                            {visibleIndices.map((serviceIndex, position) => {
+                                const service = services[serviceIndex];
+                                const isCenter = position === 1;
+                                const isLeft = position === 0;
+
+                                return (
+                                    <motion.div
+                                        key={serviceIndex}
+                                        initial={{
+                                            x: direction > 0 ? 400 : -400,
+                                            opacity: 0,
+                                            scale: 0.8,
+                                        }}
+                                        animate={{
+                                            x: isCenter ? 0 : isLeft ? -320 : 320,
+                                            opacity: isCenter ? 1 : 0.5,
+                                            scale: isCenter ? 1 : 0.7,
+                                            zIndex: isCenter ? 3 : 1,
+                                        }}
+                                        exit={{
+                                            x: direction > 0 ? -400 : 400,
+                                            opacity: 0,
+                                            scale: 0.8,
+                                        }}
+                                        transition={{
+                                            type: 'spring',
+                                            stiffness: 300,
+                                            damping: 30,
+                                        }}
+                                        style={{
+                                            position: 'absolute',
+                                            width: isCenter ? '420px' : '320px',
+                                            cursor: isCenter ? 'default' : 'pointer',
+                                        }}
+                                        onClick={() => !isCenter && goToSlide(serviceIndex)}
+                                    >
+                                        <Card
+                                            sx={{
+                                                p: isCenter ? 4 : 3,
+                                                background: isCenter
+                                                    ? 'linear-gradient(145deg, rgba(18, 18, 26, 0.95) 0%, rgba(26, 26, 37, 0.95) 100%)'
+                                                    : 'linear-gradient(145deg, rgba(18, 18, 26, 0.7) 0%, rgba(26, 26, 37, 0.7) 100%)',
+                                                border: isCenter
+                                                    ? '1px solid rgba(0, 212, 255, 0.4)'
+                                                    : '1px solid rgba(0, 212, 255, 0.1)',
+                                                position: 'relative',
+                                                overflow: 'hidden',
+                                                transition: 'all 0.4s ease',
+                                                boxShadow: isCenter
+                                                    ? '0 25px 50px rgba(0, 212, 255, 0.2), 0 0 40px rgba(123, 45, 255, 0.15)'
+                                                    : 'none',
                                                 '&::before': {
-                                                    opacity: 1,
+                                                    content: '""',
+                                                    position: 'absolute',
+                                                    top: 0,
+                                                    left: 0,
+                                                    right: 0,
+                                                    height: '2px',
+                                                    background: 'linear-gradient(90deg, transparent, #00D4FF, #7B2DFF, transparent)',
+                                                    opacity: isCenter ? 1 : 0,
                                                 },
                                                 '&::after': {
-                                                    opacity: 1,
+                                                    content: '""',
+                                                    position: 'absolute',
+                                                    top: 0,
+                                                    left: 0,
+                                                    right: 0,
+                                                    bottom: 0,
+                                                    background: 'radial-gradient(circle at 50% 0%, rgba(0, 212, 255, 0.1) 0%, transparent 60%)',
+                                                    opacity: isCenter ? 1 : 0,
                                                 },
-                                                '& .service-icon': {
-                                                    color: 'primary.main',
-                                                    transform: 'scale(1.15) rotateY(180deg)',
-                                                    filter: 'drop-shadow(0 0 15px rgba(0, 212, 255, 0.6))',
-                                                },
-                                            },
-                                        }}
-                                    >
-                                        <CardContent sx={{ position: 'relative', zIndex: 1 }}>
-                                            <Box
-                                                className="service-icon"
-                                                sx={{
-                                                    color: 'text.secondary',
-                                                    mb: 2,
-                                                    transition: 'all 0.5s ease',
-                                                    transformStyle: 'preserve-3d',
-                                                }}
-                                            >
-                                                {service.icon}
-                                            </Box>
-                                            <Typography variant="h5" component="h3" sx={{ mb: 1.5, fontWeight: 600 }}>
-                                                {service.title}
-                                            </Typography>
-                                            <Typography variant="body2" color="text.secondary">
-                                                {service.description}
-                                            </Typography>
-                                        </CardContent>
-                                    </Card>
-                                </motion.div>
-                            </Grid>
-                        ))}
-                    </Grid>
-                </motion.div>
+                                            }}
+                                        >
+                                            <CardContent sx={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
+                                                <Box
+                                                    sx={{
+                                                        color: isCenter ? 'primary.main' : 'text.secondary',
+                                                        mb: 2,
+                                                        transition: 'all 0.5s ease',
+                                                        filter: isCenter ? 'drop-shadow(0 0 15px rgba(0, 212, 255, 0.6))' : 'none',
+                                                    }}
+                                                >
+                                                    {service.icon}
+                                                </Box>
+                                                <Typography
+                                                    variant={isCenter ? 'h5' : 'h6'}
+                                                    component="h3"
+                                                    sx={{ mb: 1.5, fontWeight: 600 }}
+                                                >
+                                                    {service.title}
+                                                </Typography>
+                                                <Typography
+                                                    variant="body2"
+                                                    color="text.secondary"
+                                                    sx={{
+                                                        opacity: isCenter ? 1 : 0.7,
+                                                        display: isCenter ? 'block' : { xs: 'none', md: 'block' },
+                                                    }}
+                                                >
+                                                    {service.description}
+                                                </Typography>
+                                            </CardContent>
+                                        </Card>
+                                    </motion.div>
+                                );
+                            })}
+                        </AnimatePresence>
+                    </Box>
+                </Box>
+
+                {/* Dot indicators */}
+                <Box
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        gap: 1,
+                        mt: 4,
+                    }}
+                >
+                    {services.map((_, index) => (
+                        <Box
+                            key={index}
+                            onClick={() => goToSlide(index)}
+                            sx={{
+                                width: index === currentIndex ? 24 : 8,
+                                height: 8,
+                                borderRadius: 4,
+                                background: index === currentIndex
+                                    ? 'linear-gradient(90deg, #00D4FF, #7B2DFF)'
+                                    : 'rgba(255, 255, 255, 0.2)',
+                                cursor: 'pointer',
+                                transition: 'all 0.3s ease',
+                                boxShadow: index === currentIndex ? '0 0 10px rgba(0, 212, 255, 0.5)' : 'none',
+                                '&:hover': {
+                                    background: index === currentIndex
+                                        ? 'linear-gradient(90deg, #00D4FF, #7B2DFF)'
+                                        : 'rgba(255, 255, 255, 0.4)',
+                                },
+                            }}
+                        />
+                    ))}
+                </Box>
             </Container>
         </Box>
     );

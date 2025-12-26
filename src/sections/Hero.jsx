@@ -501,7 +501,7 @@ const Hero = () => {
                         <motion.div
                             initial={{ scale: 0, rotate: -180 }}
                             animate={{ scale: 1, rotate: 0 }}
-                            transition={{ duration: 1.2, delay: 0.3, type: 'spring' }}
+                            transition={{ duration: 2.2, delay: 0.5, type: 'spring' }}
                         >
                             <Box
                                 sx={{
@@ -568,7 +568,7 @@ const Hero = () => {
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 1, delay: 1 }}
+                            transition={{ duration: 2, delay: 1 }}
                         >
                             <Box sx={{ position: 'relative', display: 'inline-block' }}>
                                 <Typography
@@ -619,7 +619,7 @@ const Hero = () => {
                         <motion.div
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 1, delay: 1.3 }}
+                            transition={{ duration: 1.5, delay: 2 }}
                         >
                             <Typography
                                 variant="subtitle1"
