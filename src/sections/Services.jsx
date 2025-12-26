@@ -117,40 +117,57 @@ const services = [
 
 const Services = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [direction, setDirection] = useState(1);
+    const [showLightning, setShowLightning] = useState(false);
+
+    // Trigger lightning effect
+    const triggerLightning = () => {
+        setShowLightning(true);
+        setTimeout(() => setShowLightning(false), 300);
+    };
 
     // Auto-slide every 4 seconds
     useEffect(() => {
         const timer = setInterval(() => {
-            setDirection(1);
+            triggerLightning();
             setCurrentIndex((prev) => (prev + 1) % services.length);
         }, 4000);
         return () => clearInterval(timer);
     }, []);
 
     const goToSlide = (index) => {
-        setDirection(index > currentIndex ? 1 : -1);
+        triggerLightning();
         setCurrentIndex(index);
     };
 
     const nextSlide = () => {
-        setDirection(1);
+        triggerLightning();
         setCurrentIndex((prev) => (prev + 1) % services.length);
     };
 
     const prevSlide = () => {
-        setDirection(-1);
+        triggerLightning();
         setCurrentIndex((prev) => (prev - 1 + services.length) % services.length);
     };
 
-    // Get visible cards (prev, current, next)
-    const getVisibleIndices = () => {
-        const prev = (currentIndex - 1 + services.length) % services.length;
-        const next = (currentIndex + 1) % services.length;
-        return [prev, currentIndex, next];
+    // Get indices for left stack, center, and right stack
+    const getStackIndices = () => {
+        const leftStack = [];
+        const rightStack = [];
+        
+        // Left stack - top card is previous (currentIndex - 1), cards behind go further back
+        for (let i = 1; i <= 2; i++) {
+            leftStack.push((currentIndex - i + services.length) % services.length);
+        }
+        
+        // Right stack - top card is next (currentIndex + 1), cards behind go further ahead
+        for (let i = 1; i <= 2; i++) {
+            rightStack.push((currentIndex + i) % services.length);
+        }
+        
+        return { leftStack, center: currentIndex, rightStack };
     };
 
-    const visibleIndices = getVisibleIndices();
+    const { leftStack, center, rightStack } = getStackIndices();
 
     return (
         <Box
@@ -404,17 +421,86 @@ const Services = () => {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        minHeight: { xs: '60vh', md: '70vh' },
-                        perspective: '1000px',
+                        minHeight: { xs: '65vh', md: '75vh' },
+                        perspective: '1200px',
                     }}
                 >
+                    {/* Lightning Effect */}
+                    <AnimatePresence>
+                        {showLightning && (
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.15 }}
+                                style={{
+                                    position: 'absolute',
+                                    top: '50%',
+                                    left: '50%',
+                                    transform: 'translate(-50%, -50%)',
+                                    zIndex: 100,
+                                    pointerEvents: 'none',
+                                }}
+                            >
+                                <svg width="120" height="200" viewBox="0 0 120 200">
+                                    <motion.path
+                                        d="M60 0 L45 70 L70 70 L40 130 L65 130 L30 200 L75 110 L50 110 L80 50 L55 50 Z"
+                                        fill="url(#lightningGradient)"
+                                        filter="url(#lightningGlow)"
+                                        initial={{ pathLength: 0, opacity: 0 }}
+                                        animate={{ pathLength: 1, opacity: [0, 1, 1, 0] }}
+                                        transition={{ duration: 0.3, times: [0, 0.1, 0.7, 1] }}
+                                    />
+                                    <defs>
+                                        <linearGradient id="lightningGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                            <stop offset="0%" stopColor="#FFFFFF" />
+                                            <stop offset="30%" stopColor="#00D4FF" />
+                                            <stop offset="70%" stopColor="#7B2DFF" />
+                                            <stop offset="100%" stopColor="#00D4FF" />
+                                        </linearGradient>
+                                        <filter id="lightningGlow">
+                                            <feGaussianBlur stdDeviation="4" result="coloredBlur" />
+                                            <feMerge>
+                                                <feMergeNode in="coloredBlur" />
+                                                <feMergeNode in="coloredBlur" />
+                                                <feMergeNode in="SourceGraphic" />
+                                            </feMerge>
+                                        </filter>
+                                    </defs>
+                                </svg>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+
+                    {/* Flash Effect */}
+                    <AnimatePresence>
+                        {showLightning && (
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: [0, 0.3, 0] }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.2 }}
+                                style={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    background: 'radial-gradient(circle at 50% 50%, rgba(0, 212, 255, 0.4) 0%, transparent 70%)',
+                                    pointerEvents: 'none',
+                                    zIndex: 99,
+                                }}
+                            />
+                        )}
+                    </AnimatePresence>
+
                     {/* Navigation Arrows */}
                     <IconButton
                         onClick={prevSlide}
                         sx={{
                             position: 'absolute',
-                            left: { xs: 0, md: '5%' },
-                            zIndex: 10,
+                            left: { xs: '1%', md: '1%' },
+                            zIndex: 20,
                             color: 'primary.main',
                             background: 'rgba(0, 212, 255, 0.1)',
                             border: '1px solid rgba(0, 212, 255, 0.3)',
@@ -431,8 +517,8 @@ const Services = () => {
                         onClick={nextSlide}
                         sx={{
                             position: 'absolute',
-                            right: { xs: 0, md: '5%' },
-                            zIndex: 10,
+                            right: { xs: '1%', md: '1%' },
+                            zIndex: 20,
                             color: 'primary.main',
                             background: 'rgba(0, 212, 255, 0.1)',
                             border: '1px solid rgba(0, 212, 255, 0.3)',
@@ -445,127 +531,239 @@ const Services = () => {
                         <ChevronRightIcon sx={{ fontSize: 32 }} />
                     </IconButton>
 
-                    {/* Cards Display */}
+                    {/* Cards Display - Left Stack, Center, Right Stack */}
                     <Box
                         sx={{
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
                             width: '100%',
-                            maxWidth: '100%',
                             position: 'relative',
-                            height: { xs: '50vh', md: '60vh' },
-                            px: { xs: 2, md: 4 },
+                            height: { xs: '55vh', md: '65vh' },
                         }}
                     >
-                        <AnimatePresence mode="sync">
-                            {visibleIndices.map((serviceIndex, position) => {
-                                const service = services[serviceIndex];
-                                const isCenter = position === 1;
-                                const isLeft = position === 0;
+                        {/* Left Stack */}
+                        <Box
+                            sx={{
+                                position: 'absolute',
+                                left: { xs: '5%', md: '8%' },
+                                display: { xs: 'none', md: 'block' },
+                            }}
+                        >
+                            {/* Card edges behind (just decorative edges) */}
+                            {[2, 1].map((offset) => (
+                                <Box
+                                    key={`left-edge-${offset}`}
+                                    sx={{
+                                        position: 'absolute',
+                                        width: '280px',
+                                        height: '220px',
+                                        background: 'linear-gradient(145deg, rgba(18, 18, 26, 0.95) 0%, rgba(26, 26, 37, 0.95) 100%)',
+                                        border: '1px solid rgba(0, 212, 255, 0.15)',
+                                        borderRadius: 2,
+                                        transform: `translateX(${offset * 8}px) translateY(${offset * 6}px)`,
+                                        zIndex: -offset,
+                                        boxShadow: '0 5px 15px rgba(0, 0, 0, 0.3)',
+                                    }}
+                                />
+                            ))}
+                            {/* Top card with content */}
+                            <motion.div
+                                key={`left-${leftStack[0]}`}
+                                initial={{ x: 100, opacity: 0 }}
+                                animate={{
+                                    x: 0,
+                                    opacity: 0.6,
+                                    scale: 0.65,
+                                    zIndex: 3,
+                                }}
+                                transition={{
+                                    type: 'tween',
+                                    duration: 0.5,
+                                    ease: [0.4, 0, 0.2, 1],
+                                }}
+                                style={{
+                                    position: 'absolute',
+                                    width: '280px',
+                                    cursor: 'pointer',
+                                }}
+                                onClick={() => goToSlide(leftStack[0])}
+                            >
+                                <Card
+                                    sx={{
+                                        p: 2,
+                                        minHeight: 220,
+                                        background: 'linear-gradient(145deg, rgba(18, 18, 26, 0.95) 0%, rgba(26, 26, 37, 0.95) 100%)',
+                                        border: '1px solid rgba(0, 212, 255, 0.2)',
+                                        boxShadow: '0 10px 30px rgba(0, 0, 0, 0.4)',
+                                    }}
+                                >
+                                    <CardContent sx={{ textAlign: 'center' }}>
+                                        <Box sx={{ color: 'text.secondary', mb: 1 }}>
+                                            {services[leftStack[0]].icon}
+                                        </Box>
+                                        <Typography variant="body1" sx={{ fontWeight: 600, fontSize: '0.9rem' }}>
+                                            {services[leftStack[0]].title}
+                                        </Typography>
+                                    </CardContent>
+                                </Card>
+                            </motion.div>
+                        </Box>
 
-                                return (
-                                    <motion.div
-                                        key={serviceIndex}
-                                        initial={{
-                                            x: direction > 0 ? '50vw' : '-50vw',
-                                            opacity: 0,
-                                            scale: 0.7,
-                                        }}
-                                        animate={{
-                                            x: isCenter ? 0 : isLeft ? '-28vw' : '28vw',
-                                            opacity: isCenter ? 1 : 0.4,
-                                            scale: isCenter ? 1 : 0.65,
-                                            zIndex: isCenter ? 3 : 1,
-                                        }}
-                                        exit={{
-                                            x: direction > 0 ? '-50vw' : '50vw',
-                                            opacity: 0,
-                                            scale: 0.7,
-                                        }}
-                                        transition={{
-                                            type: 'tween',
-                                            duration: 0.6,
-                                            ease: [0.25, 0.1, 0.25, 1],
-                                        }}
-                                        style={{
+                        {/* Center Card */}
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={center}
+                                initial={{ x: 300, opacity: 0, scale: 0.8 }}
+                                animate={{ x: 0, opacity: 1, scale: 1, zIndex: 10 }}
+                                exit={{ x: -300, opacity: 0, scale: 0.8 }}
+                                transition={{
+                                    type: 'tween',
+                                    duration: 0.5,
+                                    ease: [0.4, 0, 0.2, 1],
+                                }}
+                                style={{
+                                    position: 'absolute',
+                                    width: 'min(550px, 70vw)',
+                                }}
+                            >
+                                <Card
+                                    sx={{
+                                        p: { xs: 4, md: 5 },
+                                        minHeight: { xs: 300, md: 380 },
+                                        background: 'linear-gradient(145deg, rgba(18, 18, 26, 0.98) 0%, rgba(26, 26, 37, 0.98) 100%)',
+                                        border: '2px solid rgba(0, 212, 255, 0.5)',
+                                        position: 'relative',
+                                        overflow: 'hidden',
+                                        boxShadow: '0 30px 60px rgba(0, 0, 0, 0.5), 0 0 50px rgba(0, 212, 255, 0.2), 0 0 100px rgba(123, 45, 255, 0.1)',
+                                        '&::before': {
+                                            content: '""',
                                             position: 'absolute',
-                                            width: isCenter ? 'min(500px, 40vw)' : 'min(380px, 30vw)',
-                                            cursor: isCenter ? 'default' : 'pointer',
-                                        }}
-                                        onClick={() => !isCenter && goToSlide(serviceIndex)}
-                                    >
-                                        <Card
+                                            top: 0,
+                                            left: 0,
+                                            right: 0,
+                                            height: '3px',
+                                            background: 'linear-gradient(90deg, transparent, #00D4FF, #7B2DFF, transparent)',
+                                        },
+                                        '&::after': {
+                                            content: '""',
+                                            position: 'absolute',
+                                            top: 0,
+                                            left: 0,
+                                            right: 0,
+                                            bottom: 0,
+                                            background: 'radial-gradient(circle at 50% 0%, rgba(0, 212, 255, 0.15) 0%, transparent 60%)',
+                                        },
+                                    }}
+                                >
+                                    <CardContent sx={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
+                                        <Box
                                             sx={{
-                                                p: isCenter ? { xs: 3, md: 5 } : { xs: 2, md: 3 },
-                                                background: isCenter
-                                                    ? 'linear-gradient(145deg, rgba(18, 18, 26, 0.95) 0%, rgba(26, 26, 37, 0.95) 100%)'
-                                                    : 'linear-gradient(145deg, rgba(18, 18, 26, 0.7) 0%, rgba(26, 26, 37, 0.7) 100%)',
-                                                border: isCenter
-                                                    ? '1px solid rgba(0, 212, 255, 0.4)'
-                                                    : '1px solid rgba(0, 212, 255, 0.1)',
-                                                position: 'relative',
-                                                overflow: 'hidden',
-                                                transition: 'all 0.4s ease',
-                                                boxShadow: isCenter
-                                                    ? '0 25px 50px rgba(0, 212, 255, 0.2), 0 0 40px rgba(123, 45, 255, 0.15)'
-                                                    : 'none',
-                                                '&::before': {
-                                                    content: '""',
-                                                    position: 'absolute',
-                                                    top: 0,
-                                                    left: 0,
-                                                    right: 0,
-                                                    height: '2px',
-                                                    background: 'linear-gradient(90deg, transparent, #00D4FF, #7B2DFF, transparent)',
-                                                    opacity: isCenter ? 1 : 0,
-                                                },
-                                                '&::after': {
-                                                    content: '""',
-                                                    position: 'absolute',
-                                                    top: 0,
-                                                    left: 0,
-                                                    right: 0,
-                                                    bottom: 0,
-                                                    background: 'radial-gradient(circle at 50% 0%, rgba(0, 212, 255, 0.1) 0%, transparent 60%)',
-                                                    opacity: isCenter ? 1 : 0,
+                                                color: 'primary.main',
+                                                mb: 3,
+                                                filter: 'drop-shadow(0 0 20px rgba(0, 212, 255, 0.7))',
+                                                '& svg': {
+                                                    fontSize: { xs: 56, md: 72 },
                                                 },
                                             }}
                                         >
-                                            <CardContent sx={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
-                                                <Box
-                                                    sx={{
-                                                        color: isCenter ? 'primary.main' : 'text.secondary',
-                                                        mb: 2,
-                                                        transition: 'all 0.5s ease',
-                                                        filter: isCenter ? 'drop-shadow(0 0 15px rgba(0, 212, 255, 0.6))' : 'none',
-                                                    }}
-                                                >
-                                                    {service.icon}
-                                                </Box>
-                                                <Typography
-                                                    variant={isCenter ? 'h5' : 'h6'}
-                                                    component="h3"
-                                                    sx={{ mb: 1.5, fontWeight: 600 }}
-                                                >
-                                                    {service.title}
-                                                </Typography>
-                                                <Typography
-                                                    variant="body2"
-                                                    color="text.secondary"
-                                                    sx={{
-                                                        opacity: isCenter ? 1 : 0.7,
-                                                        display: isCenter ? 'block' : { xs: 'none', md: 'block' },
-                                                    }}
-                                                >
-                                                    {service.description}
-                                                </Typography>
-                                            </CardContent>
-                                        </Card>
-                                    </motion.div>
-                                );
-                            })}
+                                            {services[center].icon}
+                                        </Box>
+                                        <Typography
+                                            variant="h4"
+                                            component="h3"
+                                            sx={{ 
+                                                mb: 2, 
+                                                fontWeight: 600,
+                                                fontSize: { xs: '1.5rem', md: '2rem' },
+                                            }}
+                                        >
+                                            {services[center].title}
+                                        </Typography>
+                                        <Typography
+                                            variant="body1"
+                                            color="text.secondary"
+                                            sx={{
+                                                fontSize: { xs: '0.95rem', md: '1.1rem' },
+                                                lineHeight: 1.7,
+                                                maxWidth: 450,
+                                                mx: 'auto',
+                                            }}
+                                        >
+                                            {services[center].description}
+                                        </Typography>
+                                    </CardContent>
+                                </Card>
+                            </motion.div>
                         </AnimatePresence>
+
+                        {/* Right Stack */}
+                        <Box
+                            sx={{
+                                position: 'absolute',
+                                right: { xs: '5%', md: '8%' },
+                                display: { xs: 'none', md: 'block' },
+                            }}
+                        >
+                            {/* Card edges behind (just decorative edges) */}
+                            {[2, 1].map((offset) => (
+                                <Box
+                                    key={`right-edge-${offset}`}
+                                    sx={{
+                                        position: 'absolute',
+                                        width: '280px',
+                                        height: '220px',
+                                        background: 'linear-gradient(145deg, rgba(18, 18, 26, 0.95) 0%, rgba(26, 26, 37, 0.95) 100%)',
+                                        border: '1px solid rgba(0, 212, 255, 0.15)',
+                                        borderRadius: 2,
+                                        transform: `translateX(${-offset * 8}px) translateY(${offset * 6}px)`,
+                                        zIndex: -offset,
+                                        boxShadow: '0 5px 15px rgba(0, 0, 0, 0.3)',
+                                    }}
+                                />
+                            ))}
+                            {/* Top card with content */}
+                            <motion.div
+                                key={`right-${rightStack[0]}`}
+                                initial={{ x: -100, opacity: 0 }}
+                                animate={{
+                                    x: 0,
+                                    opacity: 0.6,
+                                    scale: 0.65,
+                                    zIndex: 3,
+                                }}
+                                transition={{
+                                    type: 'tween',
+                                    duration: 0.5,
+                                    ease: [0.4, 0, 0.2, 1],
+                                }}
+                                style={{
+                                    position: 'absolute',
+                                    width: '280px',
+                                    cursor: 'pointer',
+                                }}
+                                onClick={() => goToSlide(rightStack[0])}
+                            >
+                                <Card
+                                    sx={{
+                                        p: 2,
+                                        minHeight: 220,
+                                        background: 'linear-gradient(145deg, rgba(18, 18, 26, 0.95) 0%, rgba(26, 26, 37, 0.95) 100%)',
+                                        border: '1px solid rgba(0, 212, 255, 0.2)',
+                                        boxShadow: '0 10px 30px rgba(0, 0, 0, 0.4)',
+                                    }}
+                                >
+                                    <CardContent sx={{ textAlign: 'center' }}>
+                                        <Box sx={{ color: 'text.secondary', mb: 1 }}>
+                                            {services[rightStack[0]].icon}
+                                        </Box>
+                                        <Typography variant="body1" sx={{ fontWeight: 600, fontSize: '0.9rem' }}>
+                                            {services[rightStack[0]].title}
+                                        </Typography>
+                                    </CardContent>
+                                </Card>
+                            </motion.div>
+                        </Box>
                     </Box>
                 </Box>
 
