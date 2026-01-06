@@ -61,6 +61,7 @@ const Contact = () => {
             from_email: formData.email,
             subject: formData.subject,
             message: formData.message,
+            time: new Date().toLocaleString(),
         };
 
         try {
