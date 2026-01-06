@@ -110,7 +110,7 @@ const services = [
     },
     {
         icon: <SupportAgentIcon sx={{ fontSize: 56 }} />,
-        title: 'IT Consulting',
+        title: 'IT Guidance & Consulting',
         description: 'Expert guidance to help you make informed technology decisions and strategic planning.',
     },
 ];
