@@ -9,30 +9,30 @@ import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 
 // Set this to an empty array [] to show "no positions" state
 const openPositions = [
-    {
-        title: 'Senior Full-Stack Developer',
-        slug: 'senior-full-stack-developer',
-        type: 'Full-time',
-        location: 'Remote',
-        skills: ['React', 'Node.js', 'TypeScript', 'PostgreSQL'],
-        description: 'Join our team to build cutting-edge web applications for our diverse client base.',
-    },
-    {
-        title: 'Mobile Developer',
-        slug: 'mobile-developer',
-        type: 'Full-time',
-        location: 'Remote',
-        skills: ['React Native', 'iOS', 'Android'],
-        description: 'Create beautiful, performant mobile experiences for iOS and Android platforms.',
-    },
-    {
-        title: 'UI/UX Designer',
-        slug: 'ui-ux-designer',
-        type: 'Full-time / Contract',
-        location: 'Remote',
-        skills: ['Figma', 'User Research', 'Prototyping'],
-        description: 'Design intuitive interfaces and delightful user experiences for our projects.',
-    },
+    // {
+    //     title: 'Senior Full-Stack Developer',
+    //     slug: 'senior-full-stack-developer',
+    //     type: 'Full-time',
+    //     location: 'Remote',
+    //     skills: ['React', 'Node.js', 'TypeScript', 'PostgreSQL'],
+    //     description: 'Join our team to build cutting-edge web applications for our diverse client base.',
+    // },
+    // {
+    //     title: 'Mobile Developer',
+    //     slug: 'mobile-developer',
+    //     type: 'Full-time',
+    //     location: 'Remote',
+    //     skills: ['React Native', 'iOS', 'Android'],
+    //     description: 'Create beautiful, performant mobile experiences for iOS and Android platforms.',
+    // },
+    // {
+    //     title: 'UI/UX Designer',
+    //     slug: 'ui-ux-designer',
+    //     type: 'Full-time / Contract',
+    //     location: 'Remote',
+    //     skills: ['Figma', 'User Research', 'Prototyping'],
+    //     description: 'Design intuitive interfaces and delightful user experiences for our projects.',
+    // },
 ];
 
 // Your Buttondown username - get this from your Buttondown settings
