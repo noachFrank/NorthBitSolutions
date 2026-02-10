@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import {
     AppBar,
     Toolbar,
@@ -20,14 +21,17 @@ import CloseIcon from '@mui/icons-material/Close';
 import logo from '../assets/northbit_horizontal_transparent.png';
 
 const navItems = [
-    { label: 'Home', href: '#hero' },
-    { label: 'About', href: '#about' },
-    { label: 'Services', href: '#services' },
-    { label: 'Contact', href: '#contact' },
+    { label: 'Home', href: '/#hero' },
+    { label: 'About', href: '/#about' },
+    { label: 'Portfolio', href: '/#portfolio' },
+    { label: 'Services', href: '/#services' },
+    { label: 'Contact', href: '/#contact' },
 ];
 
 const Navbar = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
+    const location = useLocation();
+    const navigate = useNavigate();
     const trigger = useScrollTrigger({
         disableHysteresis: true,
         threshold: 50,
@@ -38,9 +42,16 @@ const Navbar = () => {
     };
 
     const scrollToSection = (href) => {
-        const element = document.querySelector(href);
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
+        const hash = href.split('#')[1];
+
+        // If we're not on home page, navigate there first
+        if (location.pathname !== '/') {
+            navigate(href);
+        } else {
+            const element = document.getElementById(hash);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
         }
         setMobileOpen(false);
     };
@@ -52,11 +63,11 @@ const Navbar = () => {
                 elevation={0}
                 sx={{
                     background: trigger
-                        ? 'rgba(10, 10, 15, 0.85)'
+                        ? 'rgba(15, 20, 25, 0.9)'
                         : 'transparent',
                     backdropFilter: trigger ? 'blur(20px)' : 'none',
                     borderBottom: trigger
-                        ? '1px solid rgba(0, 212, 255, 0.1)'
+                        ? '1px solid rgba(0, 212, 255, 0.15)'
                         : 'none',
                     transition: 'all 0.3s ease',
                     '&::after': trigger ? {
@@ -66,7 +77,7 @@ const Navbar = () => {
                         left: 0,
                         right: 0,
                         height: '1px',
-                        background: 'linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.3), transparent)',
+                        background: 'linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.4), transparent)',
                     } : {},
                 }}
             >
@@ -84,7 +95,7 @@ const Navbar = () => {
                                     alignItems: 'center',
                                     cursor: 'pointer',
                                 }}
-                                onClick={() => scrollToSection('#hero')}
+                                onClick={() => scrollToSection('/#hero')}
                             >
                                 <Box
                                     component="img"
