@@ -43,77 +43,81 @@ const Hero = () => {
                 }}
             />
 
-            {/* Floating animated orbs */}
-            <motion.div
-                style={{
-                    position: 'absolute',
-                    width: 500,
-                    height: 500,
-                    borderRadius: '50%',
-                    background: 'radial-gradient(circle, rgba(0, 212, 255, 0.2) 0%, transparent 70%)',
-                    top: '5%',
-                    left: '5%',
-                    filter: 'blur(60px)',
-                }}
-                animate={{
-                    x: [0, 50, 0],
-                    y: [0, 30, 0],
-                }}
-                transition={{
-                    duration: 8,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                }}
-            />
-            <motion.div
-                style={{
-                    position: 'absolute',
-                    width: 400,
-                    height: 400,
-                    borderRadius: '50%',
-                    background: 'radial-gradient(circle, rgba(123, 45, 255, 0.15) 0%, transparent 70%)',
-                    bottom: '10%',
-                    right: '10%',
-                    filter: 'blur(60px)',
-                }}
-                animate={{
-                    x: [0, -40, 0],
-                    y: [0, -25, 0],
-                }}
-                transition={{
-                    duration: 10,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                }}
-            />
+            {/* Floating animated orbs - hidden on small screens */}
+            <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+                <motion.div
+                    style={{
+                        position: 'absolute',
+                        width: 500,
+                        height: 500,
+                        borderRadius: '50%',
+                        background: 'radial-gradient(circle, rgba(0, 212, 255, 0.2) 0%, transparent 70%)',
+                        top: '5%',
+                        left: '5%',
+                        filter: 'blur(60px)',
+                    }}
+                    animate={{
+                        x: [0, 50, 0],
+                        y: [0, 30, 0],
+                    }}
+                    transition={{
+                        duration: 8,
+                        repeat: Infinity,
+                        ease: 'easeInOut',
+                    }}
+                />
+                <motion.div
+                    style={{
+                        position: 'absolute',
+                        width: 400,
+                        height: 400,
+                        borderRadius: '50%',
+                        background: 'radial-gradient(circle, rgba(123, 45, 255, 0.15) 0%, transparent 70%)',
+                        bottom: '10%',
+                        right: '10%',
+                        filter: 'blur(60px)',
+                    }}
+                    animate={{
+                        x: [0, -40, 0],
+                        y: [0, -25, 0],
+                    }}
+                    transition={{
+                        duration: 10,
+                        repeat: Infinity,
+                        ease: 'easeInOut',
+                    }}
+                />
+            </Box>
 
-            {/* Decorative floating circles */}
-            <motion.div
-                style={{
-                    position: 'absolute',
-                    width: 200,
-                    height: 200,
-                    border: '1px solid rgba(0, 212, 255, 0.2)',
-                    borderRadius: '50%',
-                    top: '15%',
-                    right: '15%',
-                }}
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-            />
-            <motion.div
-                style={{
-                    position: 'absolute',
-                    width: 300,
-                    height: 300,
-                    border: '1px solid rgba(123, 45, 255, 0.15)',
-                    borderRadius: '50%',
-                    bottom: '20%',
-                    left: '10%',
-                }}
-                animate={{ rotate: -360 }}
-                transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
-            />
+            {/* Decorative floating circles - hidden on mobile */}
+            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+                <motion.div
+                    style={{
+                        position: 'absolute',
+                        width: 200,
+                        height: 200,
+                        border: '1px solid rgba(0, 212, 255, 0.2)',
+                        borderRadius: '50%',
+                        top: '15%',
+                        right: '15%',
+                    }}
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+                />
+                <motion.div
+                    style={{
+                        position: 'absolute',
+                        width: 300,
+                        height: 300,
+                        border: '1px solid rgba(123, 45, 255, 0.15)',
+                        borderRadius: '50%',
+                        bottom: '20%',
+                        left: '10%',
+                    }}
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
+                />
+            </Box>
 
             <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
                 <motion.div
@@ -173,20 +177,27 @@ const Hero = () => {
                             animate={{ opacity: 1 }}
                             transition={{ duration: 0.6, delay: 0.5 }}
                         >
-                            <Stack direction="row" alignItems="center" spacing={2} justifyContent="center">
-                                <BoltIcon sx={{ color: '#00D4FF', fontSize: 28, filter: 'drop-shadow(0 0 8px rgba(0, 212, 255, 0.6))' }} />
+                            <Stack 
+                                direction="row" 
+                                alignItems="center" 
+                                spacing={{ xs: 1, sm: 2 }} 
+                                justifyContent="center"
+                                sx={{ flexWrap: 'wrap', px: { xs: 2, sm: 0 } }}
+                            >
+                                <BoltIcon sx={{ color: '#00D4FF', fontSize: { xs: 22, sm: 28 }, filter: 'drop-shadow(0 0 8px rgba(0, 212, 255, 0.6))', display: { xs: 'none', sm: 'block' } }} />
                                 <Typography
                                     variant="body1"
                                     sx={{
                                         color: 'primary.main',
                                         fontStyle: 'italic',
-                                        fontSize: '1.15rem',
+                                        fontSize: { xs: '1rem', sm: '1.15rem' },
                                         opacity: 0.9,
+                                        textAlign: 'center',
                                     }}
                                 >
                                     Tomorrow's solutions for today's problems
                                 </Typography>
-                                <BoltIcon sx={{ color: '#7B2DFF', fontSize: 28, filter: 'drop-shadow(0 0 8px rgba(123, 45, 255, 0.6))' }} />
+                                <BoltIcon sx={{ color: '#7B2DFF', fontSize: { xs: 22, sm: 28 }, filter: 'drop-shadow(0 0 8px rgba(123, 45, 255, 0.6))', display: { xs: 'none', sm: 'block' } }} />
                             </Stack>
                         </motion.div>
 
@@ -240,21 +251,23 @@ const Hero = () => {
                 </motion.div>
             </Container>
 
-            {/* Scroll indicator */}
-            <motion.div
-                style={{
-                    position: 'absolute',
-                    bottom: 40,
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    cursor: 'pointer',
-                }}
-                animate={{ y: [0, 8, 0] }}
-                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                onClick={scrollToAbout}
-            >
-                <KeyboardArrowDownIcon sx={{ fontSize: 36, color: 'primary.main', opacity: 0.6 }} />
-            </motion.div>
+            {/* Scroll indicator - hidden on mobile */}
+            <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+                <motion.div
+                    style={{
+                        position: 'absolute',
+                        bottom: 40,
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        cursor: 'pointer',
+                    }}
+                    animate={{ y: [0, 8, 0] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                    onClick={scrollToAbout}
+                >
+                    <KeyboardArrowDownIcon sx={{ fontSize: 36, color: 'primary.main', opacity: 0.6 }} />
+                </motion.div>
+            </Box>
         </Box>
     );
 };

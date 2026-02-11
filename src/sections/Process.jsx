@@ -174,9 +174,10 @@ const Process = () => {
                                             color="text.secondary"
                                             sx={{
                                                 lineHeight: 1.7,
-                                                opacity: 0,
-                                                maxHeight: 0,
-                                                transform: 'translateY(10px)',
+                                                // Always visible on mobile, hover-reveal on desktop
+                                                opacity: { xs: 1, md: 0 },
+                                                maxHeight: { xs: '200px', md: 0 },
+                                                transform: { xs: 'translateY(0)', md: 'translateY(10px)' },
                                                 transition: 'all 0.4s ease',
                                                 overflow: 'hidden',
                                             }}
